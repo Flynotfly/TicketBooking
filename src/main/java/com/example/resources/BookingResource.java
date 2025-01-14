@@ -1,0 +1,72 @@
+package com.example.resources;
+
+import com.example.entities.Booking;
+import com.example.entities.User;
+import com.example.entities.Venue;
+import com.example.services.BookingService;
+import com.example.services.UserService;
+import com.example.services.VenueService;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.ejb.EJB;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.container.ContainerRequestContext;
+import java.util.List;
+
+@Path("/bookings")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public class BookingResource {
+
+    @EJB
+    private BookingService bookingService;
+
+    @EJB
+    private UserService userService;
+
+    @EJB
+    private VenueService venueService;
+
+    @POST
+    public Response createBooking(@Context ContainerRequestContext requestContext, Booking bookingRequest) {
+        Long userId = (Long) requestContext.getProperty("userId");
+
+        User user = userService.findUserById(userId);
+        if (user == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+
+        Venue venue = venueService.getVenueById(bookingRequest.getVenue().getId());
+        if (venue == null || bookingRequest.getQuantity() > (venue.getQuantityOfTickets() - venue.getBookedTickets())) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Invalid venue or insufficient tickets").build();
+        }
+
+        // Update venue's booked tickets
+        venue.setBookedTickets(venue.getBookedTickets() + bookingRequest.getQuantity());
+        venueService.updateVenue(venue);
+
+        // Create booking
+        Booking booking = new Booking();
+        booking.setUser(user);
+        booking.setVenue(venue);
+        booking.setQuantity(bookingRequest.getQuantity());
+        bookingService.addBooking(booking);
+
+        return Response.status(Response.Status.CREATED).entity(booking).build();
+    }
+
+    @GET
+    public Response getBookings(@Context ContainerRequestContext requestContext) {
+        Long userId = (Long) requestContext.getProperty("userId");
+
+        User user = userService.findUserById(userId);
+        if (user == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+
+        List<Booking> bookings = bookingService.getBookingsByUser(user);
+        return Response.ok(bookings).build();
+    }
+}
