@@ -34,16 +34,16 @@ public class Venue implements Serializable {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "quantity_of_tickets")
     private int quantityOfTickets;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "ticket_price")
     private double ticketPrice;
 
     @Column(nullable = false, length = 500)
     private String description;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "booked_tickets")
     private int bookedTickets = 0;
 
 
