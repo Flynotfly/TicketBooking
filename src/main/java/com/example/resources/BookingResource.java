@@ -6,14 +6,12 @@ import com.example.entities.Venue;
 import com.example.services.BookingService;
 import com.example.services.UserService;
 import com.example.services.VenueService;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.container.ContainerRequestContext;
-import java.util.List;
 
 @Path("/bookings")
 @Produces(MediaType.APPLICATION_JSON)
@@ -39,8 +37,15 @@ public class BookingResource {
         }
 
         Venue venue = venueService.getVenueById(bookingRequest.getVenue().getId());
-        if (venue == null || bookingRequest.getQuantity() > (venue.getQuantityOfTickets() - venue.getBookedTickets())) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Invalid venue or insufficient tickets").build();
+        if (venue == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("Venue not found").build();
+        }
+
+        int availableTickets = venue.getQuantityOfTickets() - venue.getBookedTickets();
+        if (bookingRequest.getQuantity() > availableTickets) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Not enough free tickets. Available: " + availableTickets)
+                    .build();
         }
 
         // Update venue's booked tickets
@@ -66,10 +71,9 @@ public class BookingResource {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
 
-        List<Booking> bookings = bookingService.getBookingsByUser(user);
-        return Response.ok(bookings).build();
+        return Response.ok(bookingService.getBookingsByUser(user)).build();
     }
-    
+
     @DELETE
     @Path("/{id}")
     public Response deleteBooking(@Context ContainerRequestContext requestContext, @PathParam("id") Long bookingId) {
@@ -85,6 +89,6 @@ public class BookingResource {
         }
 
         bookingService.deleteBooking(bookingId);
-        return Response.status(Response.Status.NO_CONTENT).build();
+        return Response.status(Response.Status.NO_CONTENT).entity("Booking deleted").build();
     }
 }
