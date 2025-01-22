@@ -69,4 +69,22 @@ public class BookingResource {
         List<Booking> bookings = bookingService.getBookingsByUser(user);
         return Response.ok(bookings).build();
     }
+    
+    @DELETE
+    @Path("/{id}")
+    public Response deleteBooking(@Context ContainerRequestContext requestContext, @PathParam("id") Long bookingId) {
+        Long userId = (Long) requestContext.getProperty("userId");
+
+        Booking booking = bookingService.getBookingById(bookingId);
+        if (booking == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("Booking not found").build();
+        }
+
+        if (!booking.getUser().getId().equals(userId)) {
+            return Response.status(Response.Status.FORBIDDEN).entity("You are not authorized to delete this booking").build();
+        }
+
+        bookingService.deleteBooking(bookingId);
+        return Response.status(Response.Status.NO_CONTENT).build();
+    }
 }
