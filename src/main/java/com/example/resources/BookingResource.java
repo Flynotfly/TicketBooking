@@ -12,10 +12,14 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.container.ContainerRequestContext;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Path("/bookings")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Tag(name = "Booking API", description = "APIs for managing user bookings.")
 public class BookingResource {
 
     @EJB
@@ -27,8 +31,11 @@ public class BookingResource {
     @EJB
     private VenueService venueService;
 
+    @Operation(summary = "Create a booking", description = "Allows a user to create a booking for an event.")
     @POST
-    public Response createBooking(@Context ContainerRequestContext requestContext, Booking bookingRequest) {
+    public Response createBooking(
+            @Context ContainerRequestContext requestContext,
+            @Parameter(description = "Booking request payload", required = true) Booking bookingRequest) {
         Long userId = (Long) requestContext.getProperty("userId");
 
         User user = userService.findUserById(userId);
@@ -48,11 +55,9 @@ public class BookingResource {
                     .build();
         }
 
-        // Update venue's booked tickets
         venue.setBookedTickets(venue.getBookedTickets() + bookingRequest.getQuantity());
         venueService.updateVenue(venue);
 
-        // Create booking
         Booking booking = new Booking();
         booking.setUser(user);
         booking.setVenue(venue);
@@ -62,6 +67,7 @@ public class BookingResource {
         return Response.status(Response.Status.CREATED).entity(booking).build();
     }
 
+    @Operation(summary = "Get all bookings", description = "Fetches all bookings for the authenticated user.")
     @GET
     public Response getBookings(@Context ContainerRequestContext requestContext) {
         Long userId = (Long) requestContext.getProperty("userId");
@@ -74,9 +80,12 @@ public class BookingResource {
         return Response.ok(bookingService.getBookingsByUser(user)).build();
     }
 
+    @Operation(summary = "Delete a booking", description = "Allows a user to delete their own booking.")
     @DELETE
     @Path("/{id}")
-    public Response deleteBooking(@Context ContainerRequestContext requestContext, @PathParam("id") Long bookingId) {
+    public Response deleteBooking(
+            @Context ContainerRequestContext requestContext,
+            @Parameter(description = "ID of the booking to delete", required = true) @PathParam("id") Long bookingId) {
         Long userId = (Long) requestContext.getProperty("userId");
 
         Booking booking = bookingService.getBookingById(bookingId);

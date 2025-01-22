@@ -25,6 +25,12 @@ public class JwtFilter implements ContainerRequestFilter {
         if (path.equals("auth/login")) {
             return;
         }
+        if (path.startsWith("openapi")
+                || path.startsWith("openapi.json")
+                || path.startsWith("openapi.yaml")) {
+            // Let the request through without JWT check
+            return;
+        }
 
         String authorizationHeader = requestContext.getHeaderString("Authorization");
 

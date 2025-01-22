@@ -5,6 +5,8 @@ import jakarta.ws.rs.core.Application;
 import java.util.Set;
 import java.util.HashSet;
 
+import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
+
 @ApplicationPath("/api")
 public class RestApplication extends Application {
 
@@ -15,6 +17,9 @@ public class RestApplication extends Application {
         resources.add(com.example.resources.BookingResource.class);
         resources.add(com.example.resources.VenueResource.class);
         resources.add(com.example.resources.AuthResource.class);
+        
+        resources.add(OpenApiResource.class);
+        
         return resources;
     }
 }
