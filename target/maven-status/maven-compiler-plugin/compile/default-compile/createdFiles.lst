@@ -13,3 +13,4 @@ com\example\resources\AuthResource.class
 com\example\filters\JwtFilter.class
 com\example\services\VenueService.class
 com\example\resources\BookingResource.class
+com\example\resources\VenueResource.class

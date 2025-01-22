@@ -13,6 +13,7 @@ public class RestApplication extends Application {
         Set<Class<?>> resources = new HashSet<>();
         resources.add(com.example.filters.JwtFilter.class);
         resources.add(com.example.resources.BookingResource.class);
+        resources.add(com.example.resources.VenueResource.class);
         resources.add(com.example.resources.AuthResource.class);
         return resources;
     }

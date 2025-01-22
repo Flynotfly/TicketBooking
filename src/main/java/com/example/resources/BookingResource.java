@@ -89,6 +89,6 @@ public class BookingResource {
         }
 
         bookingService.deleteBooking(bookingId);
-        return Response.status(Response.Status.NO_CONTENT).entity("Booking deleted").build();
+        return Response.status(Response.Status.NO_CONTENT).build();
     }
 }
