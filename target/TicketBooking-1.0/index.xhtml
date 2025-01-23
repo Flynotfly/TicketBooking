@@ -7,11 +7,22 @@
     <title>Welcome to the Ticket Booking System</title>
 </h:head>
 <h:body>
-    <h1>Welcome!</h1>
+    <h1>Welcome to the Ticket Booking System!</h1>
+
     <h:form>
-        <h:outputText value="Please login to continue:" />
-        <br/><br/>
-        <h:commandLink value="Go to Login Page" action="login.xhtml?faces-redirect=true" />
+        <!-- If the user is logged in, display their name -->
+        <h:panelGroup rendered="#{loginBean.loggedInUser != null}">
+            <h:outputText value="Hello, #{loginBean.loggedInUser.name}!" />
+            <br />
+            <h:commandLink value="Logout" action="#{loginBean.logout}" />
+        </h:panelGroup>
+
+        <!-- If no user is logged in, display the login link -->
+        <h:panelGroup rendered="#{loginBean.loggedInUser == null}">
+            <h:outputText value="Please login to continue:" />
+            <br /><br />
+            <h:commandLink value="Go to Login Page" action="login.xhtml?faces-redirect=true" />
+        </h:panelGroup>
     </h:form>
 </h:body>
 </html>
