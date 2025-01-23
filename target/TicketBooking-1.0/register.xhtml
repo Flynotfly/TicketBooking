@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Register - Ticket Booking System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #registerForm {
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: block;
+            color: #444;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        input:focus {
+            border-color: #007BFF;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+        }
+
+        .register-button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .register-button:hover {
+            background-color: #0056b3;
+        }
+
+        .error-message {
+            color: crimson;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .form-footer a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</h:head>
+<h:body>
+    <h:form id="registerForm">
+        <h2>Create an Account</h2>
+
+        <!-- Username -->
+        <label for="username">Name:</label>
+        <h:inputText id="username" value="#{loginBean.newUser.name}" required="true" />
+        <h:message for="username" class="error-message" />
+
+        <!-- Email -->
+        <label for="email">Email:</label>
+        <h:inputText id="email" value="#{loginBean.newUser.email}" required="true" />
+        <h:message for="email" class="error-message" />
+
+        <!-- Password -->
+        <label for="password">Password:</label>
+        <h:inputSecret id="password" value="#{loginBean.newUser.password}" required="true" />
+        <h:message for="password" class="error-message" />
+
+        <!-- Confirm Password -->
+        <label for="confirmPassword">Confirm Password:</label>
+        <h:inputSecret id="confirmPassword" value="#{loginBean.confirmPassword}" required="true" />
+        <h:message for="confirmPassword" class="error-message" />
+
+        <!-- Register Button -->
+        <h:commandButton value="Register" action="#{loginBean.register}" styleClass="register-button" />
+
+        <!-- Error Message -->
+        <h:outputText value="#{loginBean.message}" class="error-message" 
+                      rendered="#{not empty loginBean.message}" />
+
+        <!-- Footer -->
+        <div class="form-footer">
+            <p>Already have an account? <a href="login.xhtml">Login here</a></p>
+        </div>
+    </h:form>
+</h:body>
+</html>

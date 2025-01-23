@@ -17,11 +17,13 @@
             <h:commandLink value="Logout" action="#{loginBean.logout}" />
         </h:panelGroup>
 
-        <!-- If no user is logged in, display the login link -->
+        <!-- If no user is logged in, display login and register links -->
         <h:panelGroup rendered="#{loginBean.loggedInUser == null}">
-            <h:outputText value="Please login to continue:" />
+            <h:outputText value="Please login or register to continue:" />
             <br /><br />
             <h:commandLink value="Go to Login Page" action="login.xhtml?faces-redirect=true" />
+            <br />
+            <h:commandLink value="Register Here" action="register.xhtml?faces-redirect=true" />
         </h:panelGroup>
     </h:form>
 </h:body>
