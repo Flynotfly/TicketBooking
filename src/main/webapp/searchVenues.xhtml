@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Search Venues</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .search-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .restricted {
+            color: red;
+            text-align: center;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+    </style>
+</h:head>
+<h:body>
+    <!-- Check if user is logged in -->
+    <h:panelGroup rendered="#{loginBean.loggedInUser != null}">
+        <h1>Search Venues</h1>
+
+        <!-- Search form -->
+        <div class="search-container">
+            <h:form>
+                <h:outputLabel for="search" value="Search for venues:" />
+                <h:inputText id="search" value="#{venueBean.searchQuery}" />
+                <h:commandButton value="Search" action="#{venueBean.search}" />
+            </h:form>
+        </div>
+
+        <!-- Venues table -->
+        <h:form>
+            <h:dataTable value="#{venueBean.venues}" var="venue" border="1">
+                <h:column>
+                    <f:facet name="header">Name</f:facet>
+                    #{venue.name}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Date and time</f:facet>
+                    #{venue.datetime}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Place</f:facet>
+                    #{venue.place}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Category</f:facet>
+                    #{venue.category.name}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Free Tickets</f:facet>
+                    #{venue.freeTickets}
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </h:panelGroup>
+
+    <!-- If user is not logged in -->
+    <h:panelGroup rendered="#{loginBean.loggedInUser == null}">
+        <div class="restricted">
+            <p>You must be logged in to access this page.</p>
+            <h:link value="Go to Login Page" outcome="login.xhtml" />
+        </div>
+    </h:panelGroup>
+</h:body>
+</html>

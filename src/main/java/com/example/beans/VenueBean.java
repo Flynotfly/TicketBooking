@@ -1,0 +1,47 @@
+import com.example.entities.Venue;
+import com.example.services.VenueService;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import java.util.ArrayList;
+import java.util.List;
+
+@Named
+@RequestScoped
+public class VenueBean {
+    private String searchQuery;
+    private List<Venue> venues;
+
+    // Inject your VenueService here
+    @Inject
+    private VenueService venueService;
+
+    public VenueBean() {
+        venues = new ArrayList<>(); // Initialize with an empty list
+    }
+
+    public void search() {
+        if (searchQuery == null || searchQuery.isEmpty()) {
+            venues = venueService.getAllVenues();
+        } else {
+            venues = venueService.searchVenues(searchQuery);
+        }
+    }
+
+    // Getters and Setters
+    public String getSearchQuery() {
+        return searchQuery;
+    }
+
+    public void setSearchQuery(String searchQuery) {
+        this.searchQuery = searchQuery;
+    }
+
+    public List<Venue> getVenues() {
+        return venues;
+    }
+
+    public void setVenues(List<Venue> venues) {
+        this.venues = venues;
+    }
+}

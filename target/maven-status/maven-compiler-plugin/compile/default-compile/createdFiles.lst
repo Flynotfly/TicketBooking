@@ -2,6 +2,7 @@ com\example\entities\User.class
 com\example\services\UserService.class
 com\example\utils\KeyManager.class
 com\example\entities\Venue.class
+VenueBean.class
 com\example\services\CategoryService.class
 com\example\ticketbooking\JakartaRestConfiguration.class
 com\example\RestApplication.class

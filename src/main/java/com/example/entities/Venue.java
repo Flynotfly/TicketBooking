@@ -45,6 +45,9 @@ public class Venue implements Serializable {
 
     @Column(nullable = false, name = "booked_tickets")
     private int bookedTickets = 0;
+    
+    @Column(nullable = false) // New column for venue name
+    private String name;
 
 
     public Long getId() {
@@ -75,6 +78,19 @@ public class Venue implements Serializable {
 
     public int getBookedTickets() { return bookedTickets; }
     public void setBookedTickets(int bookedTickets) { this.bookedTickets = bookedTickets; }
+    
+    public String getName() {
+        return name; // Getter for the new name column
+    }
+
+    public void setName(String name) {
+        this.name = name; // Setter for the new name column
+    }
+    
+    // Free tickets calculation
+    public Integer getFreeTickets() {
+        return quantityOfTickets - bookedTickets;
+    }
 
     @Override
     public int hashCode() {

@@ -18,6 +18,13 @@ public class VenueService {
     public List<Venue> getAllVenues() {
         return em.createQuery("SELECT v FROM Venue v", Venue.class).getResultList();
     }
+    
+    public List<Venue> searchVenues(String query) {
+        return em.createQuery("SELECT v FROM Venue v WHERE LOWER(v.name) LIKE :query", Venue.class)
+                 .setParameter("query", "%" + query.toLowerCase() + "%")
+                 .getResultList();
+    }
+
 
     public Venue getVenueById(Long id) {
         return em.find(Venue.class, id);
