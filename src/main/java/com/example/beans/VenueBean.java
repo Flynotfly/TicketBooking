@@ -3,6 +3,7 @@ import com.example.services.VenueService;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,8 @@ import java.util.List;
 @RequestScoped
 public class VenueBean {
     private String searchQuery;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private List<Venue> venues;
 
     // Inject your VenueService here
@@ -24,7 +27,7 @@ public class VenueBean {
         if (searchQuery == null || searchQuery.trim().isEmpty()) {
             venues = venueService.getAllVenues();
         } else {
-            venues = venueService.searchVenues(searchQuery);
+            venues = venueService.searchVenues(searchQuery, startDate, endDate);
         }
     }
 
@@ -43,5 +46,21 @@ public class VenueBean {
 
     public void setVenues(List<Venue> venues) {
         this.venues = venues;
+    }
+    
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 }

@@ -60,8 +60,23 @@
         <!-- Search form -->
         <div class="search-container">
             <h:form>
-                <h:outputLabel for="search" value="Search for venues:" />
+                <h:outputLabel for="search" value="Search by name or place:" />
                 <h:inputText id="search" value="#{venueBean.searchQuery}" />
+                <br /><br />
+
+                <h:outputLabel for="startDate" value="Start Date:" />
+                <h:inputText id="startDate" value="#{venueBean.startDate}">
+                    <f:converter converterId="localDateConverter" />
+                </h:inputText>
+                <br /><br />
+
+                <h:outputLabel for="endDate" value="End Date:" />
+                <h:inputText id="endDate" value="#{venueBean.endDate}">
+                    <f:converter converterId="localDateConverter" />
+                </h:inputText>
+                <br /><br />
+
+
                 <h:commandButton value="Search" action="#{venueBean.search}" />
             </h:form>
         </div>
