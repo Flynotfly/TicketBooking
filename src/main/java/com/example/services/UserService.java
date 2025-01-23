@@ -30,7 +30,7 @@ public class UserService {
      */
     public User findByUsernameOrEmail(String usernameOrEmail) {
         try {
-            return em.createQuery("SELECT u FROM User u WHERE u.username = :usernameOrEmail OR u.email = :usernameOrEmail", User.class)
+            return em.createQuery("SELECT u FROM User u WHERE u.name = :usernameOrEmail OR u.email = :usernameOrEmail", User.class)
                      .setParameter("usernameOrEmail", usernameOrEmail)
                      .getSingleResult();
         } catch (NoResultException e) {

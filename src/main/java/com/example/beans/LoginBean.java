@@ -8,6 +8,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.logging.Logger;
 
 /**
  * Managed Bean for user authentication and session handling.
@@ -27,6 +28,8 @@ public class LoginBean implements Serializable {
 
     @Inject
     private UserService userService;
+    
+    private static final Logger LOGGER = Logger.getLogger(LoginBean.class.getName());
 
     /**
      * Authenticates the user using the provided credentials.
@@ -35,10 +38,10 @@ public class LoginBean implements Serializable {
     public String authenticate() {
         try {
             loggedInUser = userService.findByUsernameOrEmail(username);
-
+            LOGGER.warning("found user: " + loggedInUser.getName());
             if (loggedInUser != null && loggedInUser.getPassword().equals(password)) {
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("loggedInUser", loggedInUser);
-                return "home.xhtml?faces-redirect=true"; // Redirect to home page
+                return "index.xhtml?faces-redirect=true"; // Redirect to home page
             } else {
                 message = "Invalid username or password.";
                 return null; // Stay on the login page

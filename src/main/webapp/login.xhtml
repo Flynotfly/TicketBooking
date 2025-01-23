@@ -2,29 +2,123 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-
 <h:head>
-    <title>Login</title>
+    <title>Login - Event Manager</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #eef2f3;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #loginForm {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        h2 {
+            color: #222;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+            color: #444;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        input:focus {
+            border-color: #0056d6;
+            outline: none;
+            box-shadow: 0 0 6px rgba(0, 86, 214, 0.3);
+        }
+
+        .error-message {
+            color: crimson;
+            font-size: 12px;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+
+        .login-button {
+            background-color: #0056d6;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 14px;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .login-button:hover {
+            background-color: #003a92;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .form-footer a {
+            color: #0056d6;
+            text-decoration: none;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </h:head>
 <h:body>
-    <h:form>
-        <h2>Login</h2>
-        
-        <h:outputLabel for="username" value="Username or Email:" />
-        <h:inputText id="username" value="#{loginBean.usernameOrEmail}" required="true" requiredMessage="Username or Email is required" />
-        <br/><br/>
-        
-        <h:outputLabel for="password" value="Password:" />
-        <h:inputSecret id="password" value="#{loginBean.password}" required="true" requiredMessage="Password is required" />
-        <br/><br/>
-        
-        <h:message for="username" style="color: red;" />
-        <h:message for="password" style="color: red;" />
-        
-        <h:commandButton value="Login" action="#{loginBean.login}" />
-        <h:message for="global" style="color: red;" />
-        
-        <br/><br/>
+    <h:form id="loginForm">
+        <h2>Welcome Back</h2>
+
+        <!-- Username or Email -->
+        <label for="username">Username or Email:</label>
+        <h:inputText id="username" value="#{loginBean.username}" required="true" />
+        <h:message for="username" class="error-message" />
+
+        <!-- Password -->
+        <label for="password">Password:</label>
+        <h:inputSecret id="password" value="#{loginBean.password}" required="true" />
+        <h:message for="password" class="error-message" />
+
+        <!-- Login Button -->
+        <h:commandButton value="Sign In" action="#{loginBean.authenticate}" styleClass="login-button" />
+
+        <!-- Error Message -->
+        <h:outputText value="#{loginBean.message}" class="error-message" 
+                      rendered="#{not empty loginBean.message}" />
+
+        <!-- Footer -->
+        <div class="form-footer">
+            <p>2025 Event Manager. All rights reserved.</p>
+            <p><a href="register.xhtml">Create an account</a></p>
+        </div>
     </h:form>
 </h:body>
 </html>
