@@ -8,6 +8,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 
 @Entity
@@ -21,12 +24,18 @@ public class User implements Serializable {
     private Long id;
     
     @Column(nullable = false)
+    @Size(min = 8, message = "Password must be at least 8 characters long.")
     private String password;
 
     @Column(nullable = false)
     private String name;
 
     @Column(nullable = false, unique = true)
+    @Email(message = "Please provide a valid email address.")
+    @Pattern(
+        regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+        message = "Email must be properly formatted (e.g., example@example.com)."
+    )
     private String email;
 
     @Enumerated(EnumType.STRING) // Persist the enum as a string in the database
