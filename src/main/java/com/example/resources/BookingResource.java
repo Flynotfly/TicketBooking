@@ -70,14 +70,23 @@ public class BookingResource {
     @Operation(summary = "Get all bookings", description = "Fetches all bookings for the authenticated user.")
     @GET
     public Response getBookings(@Context ContainerRequestContext requestContext) {
+        // Get the authenticated user ID from the request context
         Long userId = (Long) requestContext.getProperty("userId");
 
+        // Find the authenticated user
         User user = userService.findUserById(userId);
         if (user == null) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
 
-        return Response.ok(bookingService.getBookingsByUser(user)).build();
+        // Check if the user is an admin
+        if (user.getRole() == User.Role.ADMIN) {
+            // If admin, fetch all bookings
+            return Response.ok(bookingService.getAllBookings()).build();
+        } else {
+            // If not admin, fetch only bookings for the specific user
+            return Response.ok(bookingService.getBookingsByUser(user)).build();
+        }
     }
 
     @Operation(summary = "Delete a booking", description = "Allows a user to delete their own booking.")
