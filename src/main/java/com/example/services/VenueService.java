@@ -20,7 +20,8 @@ public class VenueService {
     }
     
     public List<Venue> searchVenues(String query) {
-        return em.createQuery("SELECT v FROM Venue v WHERE LOWER(v.name) LIKE :query", Venue.class)
+        return em.createQuery(
+                "SELECT v FROM Venue v WHERE LOWER(v.name) LIKE :query OR LOWER(v.place) LIKE :query", Venue.class)
                  .setParameter("query", "%" + query.toLowerCase() + "%")
                  .getResultList();
     }
