@@ -4,6 +4,7 @@ import com.example.entities.Venue;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -21,16 +22,29 @@ public class VenueService {
     }
     
     public List<Venue> searchVenues(String query, LocalDate startDate, LocalDate endDate) {
-        String jpql = "SELECT v FROM Venue v WHERE (LOWER(v.name) LIKE :query OR LOWER(v.place) LIKE :query)";
-        if (startDate != null) {
-            jpql += " AND v.datetime >= :startDate";
-        }
-        if (endDate != null) {
-            jpql += " AND v.datetime <= :endDate";
+        // Start your base JPQL
+        StringBuilder jpql = new StringBuilder("SELECT v FROM Venue v WHERE 1=1");
+
+        // Check if query is not empty
+        if (query != null && !query.trim().isEmpty()) {
+            jpql.append(" AND (LOWER(v.name) LIKE :query OR LOWER(v.place) LIKE :query)");
         }
 
-        var typedQuery = em.createQuery(jpql, Venue.class)
-                .setParameter("query", "%" + query.toLowerCase() + "%");
+        // Append conditions based on dates
+        if (startDate != null) {
+            jpql.append(" AND v.datetime >= :startDate");
+        }
+        if (endDate != null) {
+            jpql.append(" AND v.datetime <= :endDate");
+        }
+
+        // Create the TypedQuery
+        TypedQuery<Venue> typedQuery = em.createQuery(jpql.toString(), Venue.class);
+
+        // Set parameters
+        if (query != null && !query.trim().isEmpty()) {
+            typedQuery.setParameter("query", "%" + query.toLowerCase() + "%");
+        }
 
         if (startDate != null) {
             typedQuery.setParameter("startDate", startDate.atStartOfDay());

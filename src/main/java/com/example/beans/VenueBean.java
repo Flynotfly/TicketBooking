@@ -24,11 +24,7 @@ public class VenueBean {
     }
 
     public void search() {
-        if (searchQuery == null || searchQuery.trim().isEmpty()) {
-            venues = venueService.getAllVenues();
-        } else {
-            venues = venueService.searchVenues(searchQuery, startDate, endDate);
-        }
+        venues = venueService.searchVenues(searchQuery, startDate, endDate);
     }
 
     // Getters and Setters
