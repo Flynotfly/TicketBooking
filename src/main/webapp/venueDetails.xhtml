@@ -75,6 +75,25 @@
                 <div class="detail-label">Ticket price:</div>
                 <div class="detail-value">#{venueBean.selectedVenue.ticketPrice} рублей</div>
             </div>
+            
+            <!-- Booking Form -->
+            <h:form>
+                <h:outputLabel for="numberOfTickets" value="Number of Tickets:" />
+                <h:inputText id="numberOfTickets" value="#{venueBean.numberOfTickets}" required="true">
+                    <f:validateLongRange minimum="1" />
+                </h:inputText>
+                <h:message for="numberOfTickets" style="color: red;" />
+
+                <h:inputHidden id="venueId" value="#{venueBean.selectedVenueId}" />
+
+                <h:commandButton value="Book Tickets" action="#{venueBean.bookTickets}">
+                    <f:param name="venueId" value="#{venueBean.selectedVenueId}" />
+                </h:commandButton>
+            </h:form>
+
+            
+            <h:outputText value="#{venueBean.bookingMessage}" rendered="#{not empty venueBean.bookingMessage}" />
+            
         </h:panelGroup>
         <h:panelGroup rendered="#{empty venueBean.selectedVenue}">
             <p>Venue not found or invalid ID provided.</p>
