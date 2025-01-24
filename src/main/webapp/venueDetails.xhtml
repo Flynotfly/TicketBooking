@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Venue Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .details-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .detail-label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .detail-value {
+            margin-bottom: 10px;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</h:head>
+<h:body>
+    <div class="details-container">
+        <h1>Venue Details</h1>
+
+        <div>
+            <div class="detail-label">Name:</div>
+            <div class="detail-value">#{venueBean.selectedVenue.name}</div>
+
+            <div class="detail-label">Place:</div>
+            <div class="detail-value">#{venueBean.selectedVenue.place}</div>
+
+            <div class="detail-label">Date and Time:</div>
+            <div class="detail-value">#{venueBean.selectedVenue.datetime}</div>
+
+            <div class="detail-label">Category:</div>
+            <div class="detail-value">#{venueBean.selectedVenue.category.name}</div>
+
+            <div class="detail-label">Description:</div>
+            <div class="detail-value">#{venueBean.selectedVenue.description}</div>
+
+            <div class="detail-label">Free Tickets:</div>
+            <div class="detail-value">#{venueBean.selectedVenue.freeTickets}</div>
+        </div>
+        
+        <h:panelGroup rendered="#{empty venueBean.selectedVenue}">
+            <p>Venue not found or invalid ID provided.</p>
+        </h:panelGroup>
+
+        <a href="searchVenues.xhtml" class="back-link">Back to Search</a>
+    </div>
+</h:body>
+</html>

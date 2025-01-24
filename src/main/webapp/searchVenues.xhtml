@@ -93,7 +93,9 @@
             <h:dataTable value="#{venueBean.venues}" var="venue" border="1">
                 <h:column>
                     <f:facet name="header">Name</f:facet>
-                    #{venue.name}
+                    <h:outputLink value="venueDetails.xhtml?venueId=#{venue.id}">
+                        #{venue.name}
+                    </h:outputLink>
                 </h:column>
                 <h:column>
                     <f:facet name="header">Date and time</f:facet>

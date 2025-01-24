@@ -6,11 +6,13 @@ import com.example.services.CategoryService;
 import com.example.services.VenueService;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Named
 @RequestScoped
@@ -21,6 +23,8 @@ public class VenueBean {
     private Long categoryId; // ID of the selected category
     private List<Venue> venues;
     private List<Category> categories; // List of all categories for selection
+    private Long selectedVenueId; // ID of the selected venue
+    private Venue selectedVenue;
 
     // Inject your VenueService here
     @Inject
@@ -36,10 +40,28 @@ public class VenueBean {
     @PostConstruct
     public void init() {
         categories = categoryService.getAllCategories(); // Fetch categories after injection
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String venueIdParam = params.get("venueId");
+        if (venueIdParam != null) {
+            try {
+                selectedVenueId = Long.parseLong(venueIdParam);
+                loadVenueDetails();
+            } catch (NumberFormatException e) {
+                // Handle invalid venueId gracefully
+                selectedVenue = null;
+            }
+        }
     }
+
 
     public void search() {
         venues = venueService.searchVenues(searchQuery, startDate, endDate, categoryId);
+    }
+    
+    public void loadVenueDetails() {
+        if (selectedVenueId != null) {
+            selectedVenue = venueService.getVenueById(selectedVenueId);
+        }
     }
 
     // Getters and Setters
@@ -89,5 +111,22 @@ public class VenueBean {
 
     public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
+    }
+    
+    // Getters and Setters
+    public Long getSelectedVenueId() {
+        return selectedVenueId;
+    }
+
+    public void setSelectedVenueId(Long selectedVenueId) {
+        this.selectedVenueId = selectedVenueId;
+    }
+
+    public Venue getSelectedVenue() {
+        return selectedVenue;
+    }
+
+    public void setSelectedVenue(Venue selectedVenue) {
+        this.selectedVenue = selectedVenue;
     }
 }
