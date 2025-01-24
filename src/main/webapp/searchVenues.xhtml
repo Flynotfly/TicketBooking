@@ -75,7 +75,14 @@
                     <f:converter converterId="localDateConverter" />
                 </h:inputText>
                 <br /><br />
-
+                
+                <h:outputLabel for="category" value="Category:" />
+                <h:selectOneMenu id="category" value="#{venueBean.categoryId}">
+                    <f:selectItem itemLabel="-- Select a Category --" itemValue="#{null}" />
+                    <f:selectItems value="#{venueBean.categories}" var="category"
+                                   itemValue="#{category.id}" itemLabel="#{category.name}" />
+                </h:selectOneMenu>
+                <br /><br />
 
                 <h:commandButton value="Search" action="#{venueBean.search}" />
             </h:form>

@@ -21,7 +21,7 @@ public class VenueService {
         return em.createQuery("SELECT v FROM Venue v", Venue.class).getResultList();
     }
     
-    public List<Venue> searchVenues(String query, LocalDate startDate, LocalDate endDate) {
+    public List<Venue> searchVenues(String query, LocalDate startDate, LocalDate endDate, Long categoryId) {
         // Start your base JPQL
         StringBuilder jpql = new StringBuilder("SELECT v FROM Venue v WHERE 1=1");
 
@@ -37,6 +37,10 @@ public class VenueService {
         if (endDate != null) {
             jpql.append(" AND v.datetime <= :endDate");
         }
+        
+        if (categoryId != null) {
+            jpql.append(" AND v.category.id = :categoryId");
+        }
 
         // Create the TypedQuery
         TypedQuery<Venue> typedQuery = em.createQuery(jpql.toString(), Venue.class);
@@ -51,6 +55,9 @@ public class VenueService {
         }
         if (endDate != null) {
             typedQuery.setParameter("endDate", endDate.atTime(23, 59, 59));
+        }
+        if (categoryId != null) {
+            typedQuery.setParameter("categoryId", categoryId);
         }
 
         return typedQuery.getResultList();

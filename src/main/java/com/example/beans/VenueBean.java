@@ -1,7 +1,10 @@
 package com.example.beans;
 
+import com.example.entities.Category;
 import com.example.entities.Venue;
+import com.example.services.CategoryService;
 import com.example.services.VenueService;
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -15,18 +18,28 @@ public class VenueBean {
     private String searchQuery;
     private LocalDate startDate;
     private LocalDate endDate;
+    private Long categoryId; // ID of the selected category
     private List<Venue> venues;
+    private List<Category> categories; // List of all categories for selection
 
     // Inject your VenueService here
     @Inject
     private VenueService venueService;
+    
+    @Inject
+    private CategoryService categoryService;
 
     public VenueBean() {
         venues = new ArrayList<>(); // Initialize with an empty list
     }
+    
+    @PostConstruct
+    public void init() {
+        categories = categoryService.getAllCategories(); // Fetch categories after injection
+    }
 
     public void search() {
-        venues = venueService.searchVenues(searchQuery, startDate, endDate);
+        venues = venueService.searchVenues(searchQuery, startDate, endDate, categoryId);
     }
 
     // Getters and Setters
@@ -60,5 +73,21 @@ public class VenueBean {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+    
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+    
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 }
