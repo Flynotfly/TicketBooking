@@ -48,29 +48,34 @@
     </style>
 </h:head>
 <h:body>
+    
     <div class="details-container">
-        <h1>Venue Details</h1>
+        <h:panelGroup rendered="#{not empty venueBean.selectedVenue}">
+            <h1>Venue Details</h1>
 
-        <div>
-            <div class="detail-label">Name:</div>
-            <div class="detail-value">#{venueBean.selectedVenue.name}</div>
+            <div>
+                <div class="detail-label">Name:</div>
+                <div class="detail-value">#{venueBean.selectedVenue.name}</div>
 
-            <div class="detail-label">Place:</div>
-            <div class="detail-value">#{venueBean.selectedVenue.place}</div>
+                <div class="detail-label">Place:</div>
+                <div class="detail-value">#{venueBean.selectedVenue.place}</div>
 
-            <div class="detail-label">Date and Time:</div>
-            <div class="detail-value">#{venueBean.selectedVenue.datetime}</div>
+                <div class="detail-label">Date and Time:</div>
+                <div class="detail-value">#{venueBean.selectedVenue.datetime}</div>
 
-            <div class="detail-label">Category:</div>
-            <div class="detail-value">#{venueBean.selectedVenue.category.name}</div>
+                <div class="detail-label">Category:</div>
+                <div class="detail-value">#{venueBean.selectedVenue.category.name}</div>
 
-            <div class="detail-label">Description:</div>
-            <div class="detail-value">#{venueBean.selectedVenue.description}</div>
+                <div class="detail-label">Description:</div>
+                <div class="detail-value">#{venueBean.selectedVenue.description}</div>
 
-            <div class="detail-label">Free Tickets:</div>
-            <div class="detail-value">#{venueBean.selectedVenue.freeTickets}</div>
-        </div>
-        
+                <div class="detail-label">Free Tickets:</div>
+                <div class="detail-value">#{venueBean.selectedVenue.freeTickets}</div>
+
+                <div class="detail-label">Ticket price:</div>
+                <div class="detail-value">#{venueBean.selectedVenue.ticketPrice} рублей</div>
+            </div>
+        </h:panelGroup>
         <h:panelGroup rendered="#{empty venueBean.selectedVenue}">
             <p>Venue not found or invalid ID provided.</p>
         </h:panelGroup>
