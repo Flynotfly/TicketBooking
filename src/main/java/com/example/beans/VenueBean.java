@@ -88,7 +88,8 @@ public class VenueBean {
         LOGGER.warning("Logged user start book ticket and continue");
         boolean success = bookingService.bookTickets(selectedVenueId, userId, numberOfTickets);
         if (success) {
-            bookingMessage = "Tickets booked successfully!";
+            FacesContext.getCurrentInstance().getExternalContext()
+                    .getFlash().put("bookingMessage", "Tickets booked successfully!");
             loadVenueDetails(); // Refresh venue details to update free tickets
             return "venueDetails.xhtml?faces-redirect=true&venueId=" + selectedVenueId;
         } else {

@@ -92,7 +92,9 @@
             </h:form>
 
             
-            <h:outputText value="#{venueBean.bookingMessage}" rendered="#{not empty venueBean.bookingMessage}" />
+            <h:outputText value="#{flash.bookingMessage}"
+              rendered="#{not empty flash.bookingMessage}" style="color:green;" />
+
             
         </h:panelGroup>
         <h:panelGroup rendered="#{empty venueBean.selectedVenue}">
