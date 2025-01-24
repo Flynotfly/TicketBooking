@@ -2,12 +2,12 @@ com\example\entities\User.class
 com\example\services\UserService.class
 com\example\utils\KeyManager.class
 com\example\entities\Venue.class
-VenueBean.class
 com\example\services\CategoryService.class
 com\example\ticketbooking\JakartaRestConfiguration.class
 com\example\RestApplication.class
 com\example\entities\Booking.class
 com\example\ticketbooking\resources\JakartaEE10Resource.class
+com\example\beans\VenueBean.class
 com\example\services\BookingService.class
 com\example\beans\LoginBean.class
 com\example\entities\Category.class

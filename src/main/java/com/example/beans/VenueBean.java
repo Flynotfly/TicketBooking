@@ -1,3 +1,5 @@
+package com.example.beans;
+
 import com.example.entities.Venue;
 import com.example.services.VenueService;
 import jakarta.enterprise.context.RequestScoped;
