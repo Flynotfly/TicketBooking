@@ -58,6 +58,7 @@
             <tr>
                 <th>Name</th>
                 <th>Place</th>
+                <th>Date and time</th>
                 <th>Total Tickets</th>
                 <th>Booked Tickets</th>
                 <th>Free Tickets</th>
@@ -69,6 +70,7 @@
                 <tr>
                     <td>${venue.name}</td>
                     <td>${venue.place}</td>
+                    <td>${venue.formattedDateTime}</td>
                     <td>${venue.quantityOfTickets}</td>
                     <td>${venue.bookedTickets}</td>
                     <td>${venue.freeTickets}</td>

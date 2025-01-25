@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -48,6 +49,9 @@ public class Venue implements Serializable {
     
     @Column(nullable = false) // New column for venue name
     private String name;
+    
+    @Transient // Not persisted in the database
+    private String formattedDateTime;
 
 
     public Long getId() {
@@ -85,6 +89,14 @@ public class Venue implements Serializable {
 
     public void setName(String name) {
         this.name = name; // Setter for the new name column
+    }
+    
+    public String getFormattedDateTime() {
+        return formattedDateTime;
+    }
+
+    public void setFormattedDateTime(String formattedDateTime) {
+        this.formattedDateTime = formattedDateTime;
     }
     
     // Free tickets calculation
