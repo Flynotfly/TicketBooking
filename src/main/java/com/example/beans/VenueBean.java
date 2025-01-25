@@ -97,6 +97,14 @@ public class VenueBean {
         }
         return null;
     }
+    
+    public List<Venue> getAllVenues() {
+        return venueService.getAllVenues();
+    }
+    
+    public List<Category> getAllCategories() {
+        return categoryService.getAllCategories();
+    }
 
     // Getters and Setters
     public String getSearchQuery() {

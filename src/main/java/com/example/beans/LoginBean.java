@@ -40,6 +40,8 @@ public class LoginBean implements Serializable {
             loggedInUser = userService.findByUsernameOrEmail(username);
             LOGGER.warning("found user: " + loggedInUser.getName());
             if (loggedInUser != null && loggedInUser.getPassword().equals(password)) {
+                // Store the LoginBean instance in the session map
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("loginBean", this);
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("loggedInUser", loggedInUser);
                 return "index.xhtml?faces-redirect=true"; // Redirect to home page
             } else {
@@ -51,6 +53,7 @@ public class LoginBean implements Serializable {
             return null;
         }
     }
+
 
     /**
      * Ends the user session and logs the user out.

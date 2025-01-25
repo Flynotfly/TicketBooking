@@ -18,4 +18,6 @@ com\example\entities\User$Role.class
 com\example\filters\JwtFilter.class
 com\example\services\VenueService.class
 com\example\resources\BookingResource.class
+com\example\converters\LocalDateTimeConverter.class
+com\example\servlets\VenueServlet.class
 com\example\resources\VenueResource.class
