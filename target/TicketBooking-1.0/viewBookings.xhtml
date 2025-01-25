@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Your Bookings</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .restricted {
+            text-align: center;
+            color: red;
+            margin-top: 50px;
+        }
+    </style>
+</h:head>
+<h:body>
+    <!-- Ensure user is logged in -->
+    <h:panelGroup rendered="#{loginBean.loggedInUser != null}">
+        <h1>Your Bookings</h1>
+
+        <h:form>
+            <h:dataTable value="#{bookingBean.userBookings}" var="booking">
+                <h:column>
+                    <f:facet name="header">Venue Name</f:facet>
+                    #{booking.venue.name}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Venue Place</f:facet>
+                    #{booking.venue.place}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Date &amp; Time</f:facet>
+                    #{booking.venue.datetime}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Tickets</f:facet>
+                    #{booking.quantity}
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </h:panelGroup>
+
+    <!-- If user is not logged in -->
+    <h:panelGroup rendered="#{loginBean.loggedInUser == null}">
+        <div class="restricted">
+            <p>You must be logged in to access this page.</p>
+            <h:link value="Go to Login Page" outcome="login.xhtml" />
+        </div>
+    </h:panelGroup>
+</h:body>
+</html>

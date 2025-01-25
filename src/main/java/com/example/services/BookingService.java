@@ -42,6 +42,12 @@ public class BookingService {
                  .getResultList();
     }
     
+    public List<Booking> getBookingsByUserId(Long userId) {
+        return em.createQuery("SELECT b FROM Booking b WHERE b.user.id = :userId", Booking.class)
+                 .setParameter("userId", userId)
+                 .getResultList();
+    }
+    
     public boolean bookTickets(Long venueId, Long userId, int numberOfTickets) {
         Venue venue = venueService.getVenueById(venueId);
 

@@ -12,6 +12,7 @@ com\example\services\BookingService.class
 com\example\beans\LoginBean.class
 com\example\entities\Category.class
 com\example\converters\LocalDateConverter.class
+com\example\beans\BookingBean.class
 com\example\resources\AuthResource.class
 com\example\entities\User$Role.class
 com\example\filters\JwtFilter.class
