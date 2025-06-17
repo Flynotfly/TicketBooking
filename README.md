@@ -1,7 +1,7 @@
 
 <br />
 <div align="center">
-  <h3 align="center">Educa</h3>
+  <h3 align="center">Ticket Booking</h3>
 
   <p align="center">
     Веб-приложение по бронированию билетов
